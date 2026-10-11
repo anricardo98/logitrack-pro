@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LogiTrack Pro · API</title>
+  <!--
+    Swagger UI + Mermaid.
+    O Swagger UI padrão mostra blocos ```mermaid como texto; esta página desenha os diagramas.
+    A especificação vem de /v3/api-docs (gerada pelo springdoc a partir dos controllers).
+  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.14/swagger-ui.css" />
+  <style>
+    body { margin: 0; background: #fafafa; }
+    .topo { background: #0f1b33; color: #fff; padding: 14px 24px; font: 600 16px system-ui, sans-serif;
+            display: flex; justify-content: space-between; align-items: center; }
+    .topo a { color: #9db7ff; font-weight: 500; font-size: 13px; text-decoration: none; }
+    .swagger-ui .topbar { display: none; }
+    /* diagramas Mermaid dentro das descrições */
+    .swagger-ui .diagrama-mermaid { background: #fff; border: 1px solid #e4e8f0; border-radius: 8px;
+                                    padding: 16px; margin: 12px 0; overflow-x: auto; text-align: center; }
+    .swagger-ui .diagrama-mermaid svg { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <div class="topo">
+    <span>LogiTrack Pro · Documentação da API</span>
+    <a href="/v3/api-docs" target="_blank">Especificação OpenAPI (JSON)</a>
+  </div>
+  <div id="swagger-ui"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.14/swagger-ui-bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'strict' });
+
+    // Troca cada bloco ```mermaid (renderizado pelo Swagger como <pre><code class="language-mermaid">)
+    // por um <div> com o diagrama desenhado.
+    let contador = 0;
+    async function desenharDiagramas() {
+      const blocos = document.querySelectorAll('#swagger-ui code.language-mermaid:not([data-desenhado])');
+      for (const code of blocos) {
+        code.dataset.desenhado = '1';
+        const destino = code.closest('pre') || code;
+        const caixa = document.createElement('div');
+        caixa.className = 'diagrama-mermaid';
+        try {
+          const { svg } = await mermaid.render('mermaid-' + (++contador), code.textContent);
+          caixa.innerHTML = svg;
+          destino.replaceWith(caixa);
+        } catch (e) {
+          console.warn('Diagrama Mermaid inválido', e);   // mantém o texto original
+        }
+      }
+    }
+
+    window.ui = SwaggerUIBundle({
+      url: '/v3/api-docs',
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      persistAuthorization: true,      // o token sobrevive a um F5
+      docExpansion: 'list',
+      defaultModelsExpandDepth: 0,
+      tryItOutEnabled: true,
+      onComplete: desenharDiagramas,
+    });
+
+    // As seções abrem e fecham dinamicamente: desenha o que aparecer depois.
+    let pendente = null;
+    new MutationObserver(() => {
+      clearTimeout(pendente);
+      pendente = setTimeout(desenharDiagramas, 50);
+    }).observe(document.getElementById('swagger-ui'), { childList: true, subtree: true });
+  </script>
+</body>
+</html>
