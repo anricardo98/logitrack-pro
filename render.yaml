@@ -1,0 +1,32 @@
+# Blueprint da Render: cria a API e o site a partir deste repositório.
+# O banco fica no Neon; os valores marcados com sync: false são pedidos no painel.
+services:
+  - type: web
+    name: logitrack-api
+    runtime: docker
+    plan: free
+    region: ohio
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /v3/api-docs
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: CORS_ORIGENS
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+
+  - type: web
+    name: logitrack-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false

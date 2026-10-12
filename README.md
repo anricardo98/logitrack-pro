@@ -53,6 +53,26 @@ Variáveis de ambiente opcionais da API: `DB_URL`, `DB_USER`, `DB_PASSWORD`, `JW
 
 Testes: `cd backend && mvn test`.
 
+
+### Opção C — Deploy gratuito (Render + Neon)
+
+A API e o site rodam na [Render](https://render.com) e o banco no [Neon](https://neon.tech), ambos no plano gratuito. O `render.yaml` na raiz descreve os dois serviços.
+
+1. **Neon:** crie um projeto na região **AWS US East 2 (Ohio)**, perto da Render. Em *Connect*, desative *Connection pooling* e copie host, banco, usuário e senha. A conexão direta é a recomendada para as migrações do Flyway.
+2. **Render:** *New → Blueprint*, selecione este repositório e preencha:
+
+   | Variável | Valor |
+   |---|---|
+   | `DB_URL` | `jdbc:postgresql://<host-do-neon>/<banco>?sslmode=require` |
+   | `DB_USER` / `DB_PASSWORD` | usuário e senha do Neon |
+   | `CORS_ORIGENS` | endereço do site, ex.: `https://logitrack-web.onrender.com` (sem `/` no final) |
+   | `VITE_API_URL` | endereço da API, ex.: `https://logitrack-api.onrender.com` |
+
+   `JWT_SECRET` é gerado pela própria Render.
+3. Na primeira subida, o Flyway cria as tabelas e carrega os dados no Neon.
+
+No plano gratuito, a API hiberna após 15 minutos sem acesso, e **o primeiro acesso depois disso leva cerca de 1 minuto**. Localmente nada muda: sem essas variáveis, a aplicação usa os valores padrão (porta 8080, banco em `localhost`).
+
 ## Arquitetura
 
 ```mermaid
