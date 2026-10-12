@@ -4,6 +4,17 @@ MVP de gestão de frota desenvolvido para o Desafio Técnico LogAp: **CRUD de ag
 
 Um veículo novo pode ser cadastrado na tela de Veículos ou direto no agendamento de manutenção (opção "+ Novo veículo"), sem sair do formulário.
 
+## Demonstração online
+
+| | Link |
+|---|---|
+| Sistema | https://logitrack-web-ayde.onrender.com |
+| Documentação da API (Swagger) | https://logitrack-api-b54s.onrender.com/swagger-ui.html |
+
+Login: `admin@logitrack.com` / `admin123`
+
+> Hospedado no plano gratuito da Render: a API hiberna após 15 minutos sem uso, e **o primeiro acesso pode levar cerca de 1 minuto**. Se o login falhar de primeira, aguarde e tente de novo.
+
 ![Dashboard](docs/prints/2-dashboard.png)
 
 ## Stack
@@ -65,10 +76,12 @@ A API e o site rodam na [Render](https://render.com) e o banco no [Neon](https:/
    |---|---|
    | `DB_URL` | `jdbc:postgresql://<host-do-neon>/<banco>?sslmode=require` |
    | `DB_USER` / `DB_PASSWORD` | usuário e senha do Neon |
-   | `CORS_ORIGENS` | endereço do site, ex.: `https://logitrack-web.onrender.com` (sem `/` no final) |
-   | `VITE_API_URL` | endereço da API, ex.: `https://logitrack-api.onrender.com` |
+   | `CORS_ORIGENS` | endereço do site, ex.: `https://logitrack-web-ayde.onrender.com` (sem `/` no final) |
+   | `VITE_API_URL` | endereço da API, ex.: `https://logitrack-api-b54s.onrender.com` (só o domínio, sem `/` no final) |
 
    `JWT_SECRET` é gerado pela própria Render.
+
+   Se o nome do serviço já existir na Render, ela acrescenta um sufixo ao endereço (ex.: `-ayde`). Use sempre o endereço que aparece no topo de cada serviço. Depois de mudar `VITE_API_URL`, faça um novo deploy do site, porque o valor é gravado no build.
 3. Na primeira subida, o Flyway cria as tabelas e carrega os dados no Neon.
 
 No plano gratuito, a API hiberna após 15 minutos sem acesso, e **o primeiro acesso depois disso leva cerca de 1 minuto**. Localmente nada muda: sem essas variáveis, a aplicação usa os valores padrão (porta 8080, banco em `localhost`).
