@@ -16,11 +16,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-/**
- * Documentação OpenAPI 3 (Swagger), servida em /v3/api-docs e exibida em /swagger-ui.html.
- * Os textos longos, com os diagramas Mermaid, ficam em resources/openapi/*.md
- * para não poluir o código Java.
- */
+/** Os textos e diagramas Mermaid da documentação ficam em resources/openapi/*.md. */
 @Configuration
 public class OpenApiConfig {
 
@@ -39,7 +35,6 @@ public class OpenApiConfig {
                         .version("1.0.0")
                         .description(texto("visao-geral"))
                         .contact(new Contact().name("André Ricardo Cândido Silva")))
-                // JWT exigido em todas as rotas; o login remove essa exigência com @SecurityRequirements vazio
                 .addSecurityItem(new SecurityRequirement().addList(ESQUEMA_JWT))
                 .components(new Components().addSecuritySchemes(ESQUEMA_JWT, new SecurityScheme()
                         .type(SecurityScheme.Type.HTTP)

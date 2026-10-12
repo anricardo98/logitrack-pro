@@ -11,7 +11,6 @@ export const nomeMes = (m) => MESES[m - 1];
 /** "2026-10-07" -> "07/10/2026" sem passar por Date (evita erro de fuso). */
 export const formatarData = (iso) => (iso ? iso.split('-').reverse().join('/') : '—');
 
-/** Dias entre hoje e a data ISO (positivo = futuro). */
 export function diasAte(iso) {
   const [a, m, d] = iso.split('-').map(Number);
   const alvo = Date.UTC(a, m - 1, d);

@@ -9,11 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/**
- * Cria o usuário administrador na primeira execução.
- * O hash é gerado pelo PasswordEncoder da aplicação (nunca fica fixo no SQL),
- * e e-mail/senha podem ser sobrescritos por variáveis de ambiente.
- */
+/** Cria o admin na primeira execução, com o hash gerado pelo PasswordEncoder (nunca fixo no SQL). */
 @Component
 public class DataSeeder implements CommandLineRunner {
 

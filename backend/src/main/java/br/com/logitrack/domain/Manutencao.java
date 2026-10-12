@@ -6,11 +6,6 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- * Agendamento de manutenção de um veículo.
- * As regras que dependem apenas do próprio objeto ficam aqui (modelo rico);
- * regras que dependem de outros registros ficam no service.
- */
 @Entity
 @Table(name = "manutencoes")
 public class Manutencao {

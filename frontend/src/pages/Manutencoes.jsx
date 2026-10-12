@@ -35,7 +35,7 @@ export default function Manutencoes() {
     setEditando(null);
     notificar(veiculoNovo ? `${msg} Veículo novo cadastrado.` : msg);
     carregar();
-    if (veiculoNovo) carregarVeiculos();   // o novo veículo passa a aparecer no filtro
+    if (veiculoNovo) carregarVeiculos();
   }
 
   async function trocarStatus(m, status) {

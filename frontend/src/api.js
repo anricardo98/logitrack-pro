@@ -1,4 +1,3 @@
-// Cliente HTTP único: injeta o token JWT e padroniza os erros da API (RFC 7807).
 const BASE = import.meta.env?.VITE_API_URL ?? '';
 const CHAVE_SESSAO = 'logitrack.sessao';
 

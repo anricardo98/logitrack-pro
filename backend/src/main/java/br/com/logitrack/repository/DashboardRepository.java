@@ -10,11 +10,6 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * As 5 métricas do dashboard, extraídas diretamente via SQL nativo
- * (requisito do desafio). Toda agregação é feita no banco — a aplicação
- * só recebe o resultado pronto.
- */
 @Repository
 public class DashboardRepository {
 
@@ -24,7 +19,6 @@ public class DashboardRepository {
         this.jdbc = jdbc;
     }
 
-    /** 1. Total de KM percorrido — de um veículo específico ou de toda a frota (veiculoId nulo). */
     public BigDecimal totalKm(Integer veiculoId) {
         String sql = """
                 SELECT COALESCE(SUM(km_percorrida), 0)
@@ -34,7 +28,6 @@ public class DashboardRepository {
         return jdbc.queryForObject(sql, new MapSqlParameterSource().addValue("veiculoId", veiculoId, Types.INTEGER), BigDecimal.class);
     }
 
-    /** 2. Volume por categoria — quantidade de viagens por tipo de veículo (LEVE x PESADO). */
     public List<VolumeCategoria> volumePorCategoria(String tipo) {
         String sql = """
                 SELECT v.tipo, COUNT(vi.id) AS quantidade
@@ -48,7 +41,6 @@ public class DashboardRepository {
                 (rs, i) -> new VolumeCategoria(rs.getString("tipo"), rs.getLong("quantidade")));
     }
 
-    /** 3. Cronograma — as próximas 5 manutenções agendadas, ordenadas por data. */
     public List<ProximaManutencao> proximasManutencoes(LocalDate hoje, int limite) {
         String sql = """
                 SELECT m.id, v.placa, v.modelo, m.data_inicio, m.data_finalizacao,
@@ -68,10 +60,6 @@ public class DashboardRepository {
                 rs.getString("tipo_servico"), rs.getBigDecimal("custo_estimado"), rs.getString("status")));
     }
 
-    /**
-     * 4. Ranking de utilização — veículos ordenados pela soma de KM.
-     * O primeiro da lista é o veículo de maior utilização; os demais alimentam o gráfico.
-     */
     public List<RankingVeiculo> rankingUtilizacao(int limite) {
         String sql = """
                 SELECT v.id, v.placa, v.modelo, v.tipo,
@@ -88,11 +76,7 @@ public class DashboardRepository {
                 rs.getBigDecimal("total_km"), rs.getLong("viagens")));
     }
 
-    /**
-     * 5. Projeção financeira — soma do custo estimado das manutenções do mês atual.
-     * Usa intervalo [1º dia do mês, 1º dia do mês seguinte) em vez de EXTRACT(MONTH ...)
-     * para que o índice em data_inicio possa ser aproveitado.
-     */
+    /** Filtra por intervalo de datas, e não por EXTRACT(MONTH ...), para usar o índice em data_inicio. */
     public ProjecaoFinanceira projecaoMes(LocalDate referencia) {
         LocalDate inicio = referencia.withDayOfMonth(1);
         LocalDate fim = inicio.plusMonths(1);

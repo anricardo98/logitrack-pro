@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Padroniza erros no formato RFC 7807 (application/problem+json). */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -25,7 +24,7 @@ public class GlobalExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
     }
 
-    /** Última linha de defesa: duas requisições simultâneas com a mesma placa esbarram no UNIQUE do banco. */
+    /** Duas requisições simultâneas com a mesma placa passam pela validação e esbarram no UNIQUE do banco. */
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ProblemDetail integridade(DataIntegrityViolationException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,

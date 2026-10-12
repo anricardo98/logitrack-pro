@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 public interface ManutencaoRepository extends JpaRepository<Manutencao, Integer> {
 
-    /** Listagem paginada com filtros opcionais. EntityGraph evita o problema N+1 ao carregar o veículo. */
+    /** EntityGraph carrega o veículo na mesma consulta (evita N+1). */
     @EntityGraph(attributePaths = "veiculo")
     @Query("""
            SELECT m FROM Manutencao m
@@ -24,11 +24,7 @@ public interface ManutencaoRepository extends JpaRepository<Manutencao, Integer>
                             @Param("veiculoId") Integer veiculoId,
                             Pageable pageable);
 
-    /**
-     * Detecta conflito de agenda: o mesmo veículo não pode ter duas manutenções
-     * (não concluídas) com períodos sobrepostos. Uma manutenção sem data de
-     * finalização é tratada como de um único dia.
-     */
+    /** Períodos sobrepostos do mesmo veículo. Sem data de finalização, a manutenção conta como de um dia. */
     @Query("""
            SELECT COUNT(m) > 0 FROM Manutencao m
            WHERE m.veiculo.id = :veiculoId

@@ -1,4 +1,3 @@
-// Ícones SVG inline (traço 2px, estilo "outline") — sem dependência externa.
 const PATHS = {
   caminhao: 'M3 7h11v9H3zM14 10h4l3 3v3h-7M7.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z',
   grafico: 'M4 20V10M10 20V4M16 20v-7M22 20H2',

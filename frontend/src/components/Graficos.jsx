@@ -1,6 +1,5 @@
 import { formatarKm, formatarNumero } from '../format.js';
 
-/** Barras horizontais para o ranking de utilização (KM acumulado por veículo). */
 export function BarrasHorizontais({ dados }) {
   const max = Math.max(...dados.map((d) => Number(d.totalKm)), 1);
   return (
@@ -21,7 +20,6 @@ export function BarrasHorizontais({ dados }) {
   );
 }
 
-/** Rosca (donut) para o volume de viagens por categoria. */
 export function Rosca({ dados }) {
   const total = dados.reduce((s, d) => s + d.quantidadeViagens, 0);
   const r = 54;

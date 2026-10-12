@@ -43,7 +43,6 @@ export function Kpi({ icone, rotulo, valor, detalhe, cor = 'azul', children }) {
 
 export const Carregando = () => <div className="vazio"><span className="spinner" /> Carregando…</div>;
 
-/** Texto amigável para falhas ao carregar uma lista. */
 export function mensagemDeCarga(erro) {
   if (erro?.status === 404 || erro?.status === 405)
     return 'A API não reconheceu esta rota. O backend em execução pode estar desatualizado: pare e rode "mvn spring-boot:run" de novo.';

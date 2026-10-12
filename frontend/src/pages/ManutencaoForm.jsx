@@ -30,7 +30,7 @@ function separarErros(campos = {}) {
 
 export default function ManutencaoForm({ inicial, veiculos, onSalvo, onCancelar }) {
   const [form, setForm] = useState(() => paraFormulario(inicial));
-  const [modoVeiculo, setModoVeiculo] = useState('existente');   // 'existente' | 'novo'
+  const [modoVeiculo, setModoVeiculo] = useState('existente');
   const [novoVeiculo, setNovoVeiculo] = useState(VEICULO_VAZIO);
   const [erros, setErros] = useState({});
   const [errosVeiculo, setErrosVeiculo] = useState({});
@@ -47,7 +47,6 @@ export default function ManutencaoForm({ inicial, veiculos, onSalvo, onCancelar 
     setErrosVeiculo((er) => ({ ...er, [campo]: undefined }));
   }
 
-  // Validação no cliente para feedback imediato; o backend valida de novo (fonte da verdade).
   function validar() {
     const e = {};
     if (modoVeiculo === 'existente' && !form.veiculoId) e.veiculoId = 'Selecione o veículo';
@@ -68,7 +67,6 @@ export default function ManutencaoForm({ inicial, veiculos, onSalvo, onCancelar 
     setErroGeral('');
     if (!validar()) return;
     const corpo = {
-      // o veículo vai de UMA das duas formas: id de um existente ou os dados de um novo
       veiculoId: modoVeiculo === 'existente' ? Number(form.veiculoId) : null,
       novoVeiculo: modoVeiculo === 'novo' ? paraApi(novoVeiculo) : null,
       dataInicio: form.dataInicio,

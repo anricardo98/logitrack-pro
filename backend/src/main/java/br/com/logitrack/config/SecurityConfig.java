@@ -24,10 +24,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-/**
- * API stateless protegida por JWT (HS256).
- * Público: login e health-check. Todo o resto exige "Authorization: Bearer <token>".
- */
 @Configuration
 public class SecurityConfig {
 
@@ -40,7 +36,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers("/actuator/health", "/error").permitAll()
-                        // documentação da API (Swagger UI + especificação OpenAPI)
                         .requestMatchers("/swagger-ui.html", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())

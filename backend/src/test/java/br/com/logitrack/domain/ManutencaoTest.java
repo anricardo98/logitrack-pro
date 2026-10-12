@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Testes das regras de negócio que vivem na própria entidade (sem Spring, sem banco). */
 class ManutencaoTest {
 
     private static final LocalDate HOJE = LocalDate.of(2026, 10, 7);

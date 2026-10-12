@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/** CRUD de veículos. Também é usado pelo agendamento de manutenção para cadastrar um veículo novo. */
 @Service
 public class VeiculoService {
 
@@ -24,13 +23,11 @@ public class VeiculoService {
         this.veiculos = veiculos;
     }
 
-    /** Lista simples, ordenada pela placa — alimenta os campos de seleção. */
     @Transactional(readOnly = true)
     public List<VeiculoResponse> listar() {
         return veiculos.findAll(Sort.by("placa")).stream().map(VeiculoResponse::de).toList();
     }
 
-    /** Lista da tela de veículos, com filtros e contagem de uso. */
     @Transactional(readOnly = true)
     public List<VeiculoResumoResponse> resumo(TipoVeiculo tipo, String busca) {
         return veiculos.resumo(tipo, busca).stream().map(VeiculoResumoResponse::de).toList();
@@ -61,10 +58,7 @@ public class VeiculoService {
         return VeiculoResponse.de(veiculo);
     }
 
-    /**
-     * Só exclui veículo sem viagens nem manutenções. Apagar um veículo com histórico
-     * apagaria junto a quilometragem e os custos usados no dashboard.
-     */
+    /** Veículo com histórico não é excluído: levaria junto a quilometragem e os custos do dashboard. */
     @Transactional
     public void excluir(Integer id) {
         Veiculo veiculo = obter(id);

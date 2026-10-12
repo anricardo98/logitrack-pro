@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-/** DTOs (records) das 5 métricas do dashboard. */
 public final class DashboardDtos {
 
     private DashboardDtos() { }

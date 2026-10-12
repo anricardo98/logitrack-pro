@@ -36,10 +36,7 @@ public class ManutencaoService {
         return ManutencaoResponse.de(obter(id));
     }
 
-    /**
-     * Agenda uma manutenção. Se vier um veículo novo, ele é cadastrado na MESMA transação:
-     * se a manutenção for recusada (ex.: datas inválidas), o veículo também não é salvo.
-     */
+    /** Veículo novo e manutenção na mesma transação: se a manutenção for recusada, o veículo não é salvo. */
     @Transactional
     public ManutencaoResponse criar(ManutencaoRequest req) {
         Veiculo veiculo = resolverVeiculo(req, null);
@@ -69,10 +66,6 @@ public class ManutencaoService {
         manutencoes.delete(obter(id));
     }
 
-    /**
-     * Veículo novo -> cadastra (não pode haver conflito de agenda, ele acabou de nascer).
-     * Veículo existente -> busca e verifica conflito de agenda.
-     */
     private Veiculo resolverVeiculo(ManutencaoRequest req, Integer ignorarManutencaoId) {
         if (req.novoVeiculo() != null) {
             return veiculos.cadastrar(req.novoVeiculo());

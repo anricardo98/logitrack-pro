@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { api } from '../api.js';
 import VeiculoCampos, { VEICULO_VAZIO, paraApi, validarVeiculo } from '../components/VeiculoCampos.jsx';
 
-/** Formulário de cadastro/edição de veículo (mesmo componente para os dois casos). */
 export default function VeiculoForm({ inicial, onSalvo, onCancelar }) {
   const [form, setForm] = useState(() => (inicial.id
     ? { placa: inicial.placa, modelo: inicial.modelo, tipo: inicial.tipo, ano: inicial.ano ?? '' }

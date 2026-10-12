@@ -7,7 +7,7 @@ import VeiculoForm from './VeiculoForm.jsx';
 
 export default function Veiculos() {
   const [filtros, setFiltros] = useState({ tipo: '', busca: '' });
-  const [busca, setBusca] = useState('');            // texto digitado (aplicado com atraso)
+  const [busca, setBusca] = useState('');
   const [lista, setLista] = useState(null);
   const [editando, setEditando] = useState(null);    // null = fechado | {} = novo | objeto = edição
   const [excluindo, setExcluindo] = useState(null);
@@ -17,7 +17,7 @@ export default function Veiculos() {
   const carregar = useCallback(() => { api.veiculos.resumo(filtros).then(setLista); }, [filtros]);
   useEffect(() => { carregar(); }, [carregar]);
 
-  // "debounce": só busca 300 ms depois que a pessoa para de digitar
+  // debounce: só busca 300 ms depois que a pessoa para de digitar
   useEffect(() => {
     const t = setTimeout(() => setFiltros((f) => ({ ...f, busca })), 300);
     return () => clearTimeout(t);

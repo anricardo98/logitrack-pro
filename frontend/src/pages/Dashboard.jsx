@@ -17,7 +17,6 @@ export default function Dashboard() {
       .catch(() => setErro('Não foi possível carregar o dashboard.'));
   }, []);
 
-  // Métrica 1 com filtro: total de KM de um veículo ou da frota toda
   async function trocarVeiculo(id) {
     setVeiculoKm(id);
     const r = await api.dashboard.totalKm(id || undefined);

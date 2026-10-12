@@ -35,7 +35,7 @@ public class Veiculo {
         this.ano = ano;
     }
 
-    /** "abc1234" -> "ABC-1234"; "abc1d23" (Mercosul) -> "ABC1D23". Mantém um formato único no banco. */
+    /** Formato único no banco: abc1234 -> ABC-1234; Mercosul abc1d23 -> ABC1D23. */
     public static String normalizarPlaca(String placa) {
         String p = placa.trim().toUpperCase().replace("-", "");
         boolean antiga = Character.isDigit(p.charAt(4));

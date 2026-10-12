@@ -20,7 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
-/** CRUD de veículos. */
 @RestController
 @RequestMapping("/api/veiculos")
 @Tag(name = OpenApiConfig.TAG_VEICULOS)

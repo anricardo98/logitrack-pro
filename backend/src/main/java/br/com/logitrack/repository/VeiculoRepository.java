@@ -12,13 +12,8 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Integer> {
 
     boolean existsByPlaca(String placa);
 
-    /** Placa repetida na edição: outra linha (id diferente) já usa essa placa. */
     boolean existsByPlacaAndIdNot(String placa, Integer id);
 
-    /**
-     * Listagem da tela de veículos com quantas viagens e manutenções cada um tem.
-     * Subconsultas correlacionadas usam os índices de veiculo_id criados na V2.
-     */
     @Query(value = """
             SELECT v.id, v.placa, v.modelo, v.tipo, v.ano,
                    (SELECT COUNT(*) FROM viagens vi     WHERE vi.veiculo_id = v.id) AS viagens,
@@ -38,7 +33,6 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Integer> {
             """, nativeQuery = true)
     long contarVinculos(@Param("id") Integer id);
 
-    /** Projeção (interface) preenchida pelo Spring Data a partir das colunas da consulta nativa. */
     interface ResumoVeiculo {
         Integer getId();
         String getPlaca();

@@ -9,11 +9,6 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- * Agendamento de manutenção. O veículo vem de UMA de duas formas:
- * - veiculoId: um veículo já cadastrado; ou
- * - novoVeiculo: os dados de um veículo que será cadastrado junto com a manutenção.
- */
 @Schema(description = "Informe veiculoId OU novoVeiculo (nunca os dois)")
 public record ManutencaoRequest(
         @Schema(description = "Veículo já cadastrado", example = "1")
@@ -32,10 +27,7 @@ public record ManutencaoRequest(
         @Schema(description = "Padrão: PENDENTE")
         StatusManutencao status
 ) {
-    /**
-     * Exatamente uma das duas formas deve ser usada.
-     * Bean Validation trata este "isX" como a propriedade "veiculoInformado".
-     */
+    // Bean Validation expõe este método como a propriedade "veiculoInformado" (o front mapeia o erro por esse nome).
     @JsonIgnore
     @Schema(hidden = true)
     @AssertTrue(message = "Selecione um veículo cadastrado ou informe os dados de um novo veículo")
